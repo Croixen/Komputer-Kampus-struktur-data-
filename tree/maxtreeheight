@@ -1,0 +1,97 @@
+#include <iostream>
+using namespace std;
+
+struct node{
+	char data;
+	node* right;
+	node* left;
+	node* top;
+};
+
+node* setNode(char idata){
+	node* newNode = new node;
+	newNode->data = idata;
+	newNode -> left = NULL;
+	newNode -> right = NULL;
+	newNode -> top = NULL;
+
+    return newNode;
+}
+
+void preorder (node* Node){
+	if(Node == NULL)return;
+	cout<<Node->data<<" ";
+	preorder(Node -> left);
+	preorder(Node->right);
+}
+
+void postorder (node* Node){
+	if(Node == NULL)return;
+	postorder(Node -> left);
+	postorder(Node->right);
+	cout<<Node->data<<" ";
+}
+
+void inorder (node* Node){
+	if(Node == NULL)return;
+	inorder(Node -> left);
+	cout<<Node->data<<" ";
+	inorder(Node->right);
+}
+
+void preorderRL (node* Node){
+	if(Node == NULL)return;
+	cout<<Node->data<<" ";
+	preorderRL(Node -> right);
+	preorderRL(Node->left);
+}
+
+void postorderRL (node* Node){
+	if(Node == NULL)return;
+	postorderRL(Node -> right);
+	postorderRL(Node->left);
+	cout<<Node->data<<" ";
+}
+
+void inorderRL (node* Node){
+	if(Node == NULL)return;
+	inorderRL(Node -> right);
+	cout<<Node->data<<" ";
+	inorderRL(Node->left);
+}
+
+int findmaxheight(node* Node , int max = 0){
+    if(Node == NULL){
+        return max;
+    }
+    int left = findmaxheight(Node -> left, max+1);
+    int right = findmaxheight(Node -> right, max+1);
+    
+    if (left > right){
+        max = left;
+    }else{
+        max = right;
+    }
+    return max;
+}
+
+int main(){
+
+	node* root = setNode('A');
+	root -> left = setNode('B');
+	root -> left -> left = setNode('D');
+	root -> left -> left -> right = setNode('J');
+	root -> left -> right = setNode('F');
+	root -> right = setNode('C');
+	root -> right -> right= setNode('H');	
+	root -> right -> left= setNode('G');
+
+	cout<<"\npreorderLR -> "; preorder(root);
+	cout<<"\nInorderLR -> "; inorder(root);
+	cout<<"\npostorderLR -> "; postorder(root);
+	cout<<"\npreorderRL -> "; preorderRL(root);
+	cout<<"\ninorderRL -> "; inorderRL(root);
+	cout<<"\npostorderRL -> "; postorderRL(root);
+	
+	cout<<"\n\nHeight of the tree is: "<<findmaxheight(root);
+}
